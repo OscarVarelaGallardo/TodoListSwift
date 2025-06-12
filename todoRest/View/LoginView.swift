@@ -8,7 +8,7 @@ struct LoginView: View {
     @State private var colorText : Color = .black
     
     var body: some View {
-        VStack(spacing: 20) { // <--- Aquí agregas espacio entre elementos
+        VStack(spacing: 20) {
             Text("Iniciar Sesión")
                 .font(.title)
                 .bold()

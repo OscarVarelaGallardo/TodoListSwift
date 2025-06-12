@@ -1,6 +1,6 @@
 import Foundation
 
-class TaskViewModel: ObservableObject{
+class TaskService: ObservableObject{
     @Published var tasks: [TaskItem] = []
     func addTask(title:String){
         let task = TaskItem(title: title)

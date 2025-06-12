@@ -4,7 +4,7 @@ import SwiftUI
 
 struct TaskListView: View {
     @EnvironmentObject var appState: AppState
-    @StateObject private var viewModel = TaskViewModel()
+    @StateObject private var taskService = TaskService()
     @State private var newTaskTitle = ""
 
     var body: some View {
@@ -25,17 +25,17 @@ struct TaskListView: View {
                 
                 Button("Agregar") {
                     guard !newTaskTitle.isEmpty else { return }
-                    viewModel.addTask(title: newTaskTitle)
+                    taskService.addTask(title: newTaskTitle)
                     newTaskTitle = ""
                 }
             }
            
 
             List {
-                ForEach(viewModel.tasks) { task in
+                ForEach(taskService.tasks) { task in
                     HStack {
                         Button(action: {
-                            viewModel.toggleTask(task)
+                            taskService.toggleTask(task)
                         }) {
                             Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
                         }
@@ -45,7 +45,7 @@ struct TaskListView: View {
                             .strikethrough(task.isCompleted)
                     }
                 }
-                .onDelete(perform: viewModel.deleteTask)
+                .onDelete(perform: taskService.deleteTask)
             }
             .frame(minWidth: 400, minHeight: 300)
         }
