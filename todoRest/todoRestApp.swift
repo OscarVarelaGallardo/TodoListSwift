@@ -1,17 +1,15 @@
-//
-//  todoRestApp.swift
-//  todoRest
-//
-//  Created by Oscar Varela on 11/06/25.
-//
+
 
 import SwiftUI
 
 @main
 struct todoRestApp: App {
+    @StateObject var appState = AppState()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
+                .environmentObject(appState)
+            }
         }
     }
-}
+

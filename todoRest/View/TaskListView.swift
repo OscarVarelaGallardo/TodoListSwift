@@ -2,20 +2,21 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct TaskListView: View {
     @EnvironmentObject var appState: AppState
     @StateObject private var viewModel = TaskViewModel()
     @State private var newTaskTitle = ""
 
     var body: some View {
-        HStack {
-            Button("Salir") {
-                appState.isLoggedIn = false
-            }
-            Spacer()
-        }
-        .padding()
+        
         VStack {
+            HStack {
+                Button("Salir") {
+                    appState.logout()
+                }
+                Spacer()
+            }
+            .padding()
            
             HStack {
                 TextField("Escribe una tarea...", text: $newTaskTitle)
@@ -53,5 +54,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    TaskListView()
 }
