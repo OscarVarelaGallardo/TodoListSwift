@@ -6,6 +6,7 @@ struct LoginView: View {
     @State private var password = ""
     @State private var message = ""
     @State private var colorText : Color = .black
+    @StateObject var authViewModel = AuthViewModel()
     
     var body: some View {
         VStack(spacing: 20) {
@@ -20,17 +21,8 @@ struct LoginView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
 
             Button("Iniciar sesión") {
-                AuthService.login(email: email, password: password){
-                    token in DispatchQueue.main.async {
-                        if let token = token {
-                                      appState.token = token
-                                      appState.currentScreen = .home
-                                  } else {
-                                      colorText = .red
-                                      message = "Error al iniciar sesión"
-                                  }
-                    }
-                }           }
+                authViewModel.login(email: email, password: password, appState: appState)
+            }
             .buttonStyle(.borderedProminent)
             Text(message)
                 .foregroundColor(colorText)

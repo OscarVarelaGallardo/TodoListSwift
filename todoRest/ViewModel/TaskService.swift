@@ -1,10 +1,18 @@
 import Foundation
 
 class TaskService: ObservableObject{
+    static let baseURL = "http://localhost:3000"
+    
     @Published var tasks: [TaskItem] = []
-    func addTask(title:String){
-        let task = TaskItem(title: title)
-        tasks.append(task)
+    
+    static func addTask(id: Int, completion: @escaping (Bool) -> Void){
+        guard let url = URL(string: "\(baseURL)/notes/\(id)") else {
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
     }
     
     func toggleTask(_ task: TaskItem) {

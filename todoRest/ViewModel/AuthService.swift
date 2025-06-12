@@ -1,8 +1,6 @@
 import Foundation
 
-struct AuthResponse: Codable {
-    let token: String
-}
+
 
 class AuthService {
     static let baseURL = "http://localhost:3000"
@@ -25,7 +23,7 @@ class AuthService {
         }.resume()
     }
     
-    static func login(email: String, password: String, completion: @escaping (String?) -> Void) {
+    static func login(email: String, password: String , completion: @escaping ((token: String, id: Int)?) -> Void){
         guard let url = URL(string: "\(baseURL)/auth/login") else { return }
         
         var request = URLRequest(url: url)
@@ -49,10 +47,11 @@ class AuthService {
                 let responseString = String(data: data, encoding: .utf8)
                 print("Respuesta cruda del backend: \(responseString ?? "sin datos")")
                 
-                let auth = try? JSONDecoder().decode(AuthResponse.self, from: data)
-                completion(auth?.token)
-            } else {
-                completion(nil)
+                if let auth = try? JSONDecoder().decode(AuthResponse.self, from: data) {
+                    completion((auth.token, auth.id))
+                } else {
+                    completion(nil)
+                }
             }
         }.resume()
     }
